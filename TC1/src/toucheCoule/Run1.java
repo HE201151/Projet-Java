@@ -12,6 +12,7 @@ public class Run1 {
 	Bateau1[] bateaux1;							// on construit les bateaux du joueur 1
 	Bateau1[] bateaux2;							// on construit les bateaux du joueur 2
 	int nb_bateaux=10;
+	int selectionBateau=0;
 	
 	
 	/*
@@ -26,6 +27,8 @@ public class Run1 {
 		else lancement();
 
 	}
+	
+
 		
 	
 	
@@ -58,9 +61,9 @@ public class Run1 {
 				
 				bateau.coordonnees[i].X=bateau.coordonnees[i-1].X;										// donc on donne la coo X identique pour toutes les cases
 				bateau.coordonnees[i].Y=bateau.coordonnees[i-1].Y+1;									// et on donne la coo Y qui augmente d'une case par rapport à la précédente
-				System.out.println(bateau.coordonnees[i].Y);
+				//System.out.println(bateau.coordonnees[i].Y);
 			}
-			System.out.println("fin");
+			//System.out.println("fin");
 			
 		}
 		else{																							// sinon le bateau est placé sur l'axe des Y
@@ -69,6 +72,7 @@ public class Run1 {
 				bateau.coordonnees[i].X=bateau.coordonnees[i-1].X+1;									// et on donne la coo X qui augmente d'une case par rapport à la précédente
 			}
 		}
+		
 	}
 	
 	/*
@@ -76,33 +80,66 @@ public class Run1 {
 	 * on a besoin de connaître sa position de début et de fin pour savoir placer un bateau correctement
 	 */
 	
-	public void placerBateaux(Bateau1[] bateaux){
+	public void placerBateaux(int positionBouton){
 		int i=0;
+
 		Case position = new Case();
 		//position.X=1;   //essai
 		//position.Y=5;	//essai
 		int debutBateau=0;
 		int finBateau=0;
 		
-		//if(Placement.getPositionBouton()!=0){
-		position.X=(Placement.getPositionBouton()%10);
-		position.Y=(Placement.getPositionBouton()/10);
+		position.X=(positionBouton%10);
+		position.Y=(positionBouton/10);
 		
 		
-		bateaux[i].coordonnees[debutBateau]=position;								// on met la position du premier bateau;
-		System.out.println(bateaux[i].coordonnees[debutBateau]);
-		
-		//}
-		for(i=1;i<=(nb_bateaux/2)-1;i++){											// on met la position des autres
-			finBateau=bateaux[i].longueur-1;										// on donne la taille du bateau pour connaitre la fin du bateau
-			bateaux[i].coordonnees[debutBateau]=position;							// la première case du bateau
-			bateaux[i].coordonnees[finBateau]=position;								// la dernière case du bateau
-			if(bateaux[i].longueur>2){												// si le bateau à plus de deux cases
-				
-				placerIntracase(bateaux[i],debutBateau, finBateau);					// on positione les cases entre le début et la fin
-			}	
+		switch (selectionBateau){
+		case 0: {
+			bateaux1[selectionBateau].coordonnees[debutBateau].X=position.X;	
+			bateaux1[selectionBateau].coordonnees[debutBateau].Y=position.Y;
 			
+			System.out.println("Bateau " + (selectionBateau+1) + "  :  ");
+			System.out.println("coo X début: " + bateaux1[selectionBateau].coordonnees[debutBateau].X);
+			System.out.println("coo Y début: " + bateaux1[selectionBateau].coordonnees[debutBateau].Y);
+			break;
+			}
+		
+		case 1: case 3: case 5: case 7: {
+			bateaux1[(selectionBateau+1)/2].coordonnees[debutBateau].X=position.X;	
+			bateaux1[(selectionBateau+1)/2].coordonnees[debutBateau].Y=position.Y;
+			
+			System.out.println("Bateau " + ((selectionBateau+3)/2) + "  :  ");
+			System.out.println("coo X début: " + bateaux1[(selectionBateau+1)/2].coordonnees[debutBateau].X);
+			System.out.println("coo Y début: " + bateaux1[(selectionBateau+1)/2].coordonnees[debutBateau].Y);
+			break;
+			}
+		
+		case 2: case 4: case 6: case 8: {
+			
+			finBateau=(bateaux1[selectionBateau/2].longueur)-1;
+
+			bateaux1[selectionBateau/2].coordonnees[finBateau].X=position.X;								
+			bateaux1[selectionBateau/2].coordonnees[finBateau].Y=position.Y;
+			
+			System.out.println("Bateau " + ((selectionBateau+2)/2) + "  :  ");
+			System.out.println("coo X fin: " + bateaux1[selectionBateau/2].coordonnees[finBateau].X);
+			System.out.println("coo Y fin: " + bateaux1[selectionBateau/2].coordonnees[finBateau].Y);
+			
+			
+			if(bateaux1[selectionBateau/2].longueur>2){												// si le bateau à plus de deux cases
+				placerIntracase(bateaux1[selectionBateau/2],debutBateau, finBateau);								// on positione les cases entre le début et la fin
+			}
+			break;
+			}
 		}
+		
+		
+
+
+		
+		
+		selectionBateau=selectionBateau+1;
+		
 	}
 	
 	/*
@@ -125,7 +162,7 @@ public class Run1 {
 
 		//constructionGrille();							// on construit la grille
 		
-		placerBateaux(bateaux1);						// on place les bateaux du premier joueur
+		//placerBateaux(bateaux1);						// on place les bateaux du premier joueur
 		//placerBateaux(bateaux2);						// idem joueur 2
 		
 	}

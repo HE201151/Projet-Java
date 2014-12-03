@@ -22,7 +22,7 @@ import toucheCoule.Run1;
 public class Placement extends JFrame {
 
 	private JPanel contentPane;
-	static String positionBouton;
+	static String positionBouton="00";
 
 	/**
 	 * Launch the application.
@@ -110,16 +110,19 @@ public class Placement extends JFrame {
 	}
 	
 	public void grille(JPanel panel){
+		Run1 r = new Run1();
+
 		JButton[][] maGrille = new JButton [10][10];
 		panel.setLayout(new GridLayout(10, 10, 0, 0));
 		int i, j;
 		for(i=0;i<=9;i++){
 			for(j=0;j<=9;j++){
 			maGrille[i][j]= new JButton();
-			maGrille[i][j].setName(""+(i+1)+(j+1));
+			maGrille[i][j].setName(""+(i)+(j));
 			maGrille[i][j].addActionListener(new ActionListener(){
 	            public void actionPerformed(ActionEvent e){		// quand on clique sur le bouton on donne le nom de la case (qui sont ses coordonées)
 	            	positionBouton=(((Component) e.getSource()).getName()+"");
+	            	r.placerBateaux(Integer.parseInt(positionBouton));
 	            	//System.out.println(positionBouton);
 	            	
 	            }
@@ -128,12 +131,11 @@ public class Placement extends JFrame {
 			
 			}
 		}
-		Run1 r = new Run1();
+		
 		
 	}
 	
-	public static int getPositionBouton(){
-		return Integer.parseInt(positionBouton);
-	}
+
+
 
 }
